@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    .modal-container {
+        display: none;
+    }
+</style>
+
+<script>
+    let modalOpen = false
+    function openModal() {
+        if (!modalOpen) {
+            document.getElementById('modal').style.display = 'block';
+            modalOpen = true
+        }
+        else {
+            document.getElementById('modal').style.display = 'none';
+            modalOpen = false
+        }
+
+    }
+    function closeModal() {
+        document.getElementById('modal').style.display = 'none';
+    }
+</script>
+
+<body>
+    <button onclick="openModal()">Login</button>
+    <div class="modal-container" id="modal">
+        <div class="modal__overlay"></div>
+        <div class="modal__body">
+            <div class="modal__header">
+                <h3 class="modal__title">Đăng nhập</h3>
+                <span class="modal__close">&times;</span>
+            </div>
+            <div class="modal__content">
+                <form action="" class="modal__form">
+                    <div class="modal__form-group">
+                        <label for="username">Tài khoản</label>
+                        <input type="text" id="username" name="username" placeholder="Nhập tài khoản">
+                    </div>
+                    <div class="modal__form-group">
+                        <label for="password">Mật khẩu</label>
+                        <input type="password" id="password" name="password" placeholder="Nhập mật khẩu">
+                    </div>
+                    <div class="modal__form-group">
+                        <button class="btn btn--primary">Đăng nhập</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+    </div>
+</body>
+
+</html>
