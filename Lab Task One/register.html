@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Form</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.slim.min.js"
+        integrity="sha256-kmHvs0B+OpCW5GVHUNjv9rOmY0IvSIRcf7zGUDTDQM8=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.19.3/jquery.validate.min.js"></script>
+</head>
+
+<body class="bg-gray-100 flex items-center justify-center h-screen">
+    <div class="bg-white p-8 rounded-lg shadow-md w-96">
+        <h2 class="text-2xl font-semibold mb-4">Registration</h2>
+        <form id="registrationForm">
+            <div class="mb-4">
+                <label for="username" class="block text-gray-700 text-sm font-bold mb-2">Username</label>
+                <input type="text" id="username" name="username"
+                    class="border border-gray-400 rounded-lg py-2 px-3 focus:outline-none focus:border-blue-500 w-full"
+                    placeholder="Enter your username" required>
+            </div>
+            <div class="mb-4">
+                <label for="email" class="block text-gray-700 text-sm font-bold mb-2">Email</label>
+                <input type="email" id="email" name="email"
+                    class="border border-gray-400 rounded-lg py-2 px-3 focus:outline-none focus:border-blue-500 w-full"
+                    placeholder="Enter your email" required>
+            </div>
+            <div class="mb-4">
+                <label for="password" class="block text-gray-700 text-sm font-bold mb-2">Password</label>
+                <input type="password" id="password" name="password"
+                    class="border border-gray-400 rounded-lg py-2 px-3 focus:outline-none focus:border-blue-500 w-full"
+                    placeholder="Enter your password" required>
+            </div>
+            <div class="mb-4">
+                <label for="password" class="block text-gray-700 text-sm font-bold mb-2">Confirm Password</label>
+                <input type="password" id="password" name="password"
+                    class="border border-gray-400 rounded-lg py-2 px-3 focus:outline-none focus:border-blue-500 w-full"
+                    placeholder="Re-enter your password" required>
+            </div>
+            <button type="submit"
+                class="bg-blue-500 w-full text-white rounded-lg py-2 px-4 hover:bg-blue-600 focus:outline-none focus:bg-blue-600 transition duration-300">Register</button>
+        </form>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            // Initialize form validation
+            $("#registrationForm").validate({
+                rules: {
+                    username: "required",
+                    email: {
+                        required: true,
+                        email: true
+                    },
+                    password: {
+                        required: true,
+                        minlength: 6
+                    }
+                },
+                messages: {
+                    username: "Please enter your username",
+                    email: {
+                        required: "Please enter your email",
+                        email: "Please enter a valid email address"
+                    },
+                    password: {
+                        required: "Please enter your password",
+                        minlength: "Your password must be at least 6 characters long"
+                    }
+                },
+                submitHandler: function (form) {
+                    // Add your registration functionality here
+                    alert("Registration successful!"); // Replace with your code to handle the registration
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
