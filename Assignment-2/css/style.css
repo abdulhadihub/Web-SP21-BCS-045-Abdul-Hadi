@@ -241,7 +241,7 @@ ul {
 
 .product_banner:hover .item_price {
 	/* color: #dc3545; */
-	color: #689e80;
+	color: #000;
 	font-weight: 900;
 }
 
@@ -251,7 +251,7 @@ ul {
 
 .product_banner:hover .price_color {
 	/* color: orange; */
-	color: #689e80;
+	color: #000;
 }
 
 img.product_opacity {
