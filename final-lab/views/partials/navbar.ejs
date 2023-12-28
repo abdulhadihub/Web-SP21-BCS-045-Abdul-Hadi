@@ -1,0 +1,52 @@
+<nav class="bg-blue-500 p-4">
+    <div class="container mx-auto flex justify-between items-center">
+        <div class="flex items-center justify-center">
+            <a href="/" class="text-white text-2xl font-semibold">ViewUFlix</a>
+            <ul class="flex space-x-6 ml-4 mt-1 font-semibold">
+                <li><a href="/movies" class="text-white">Movies</a></li>
+                <!-- <li><a href="/tv-shows" class="text-white">Tv Shows</a></li> -->
+                <!-- Dropdown Menu -->
+                <li class="relative group">
+                    <a href="#" class="text-white px-3 py-2 rounded-full">More</a>
+                    <!-- Dropdown Content -->
+                    <ul
+                        class="absolute hidden space-y-2 w-[150px] text-md bg-white text-gray-800 group-hover:block rounded-lg shadow-md mt-[6px] z-50">
+                        <li><a href="/profile" class="block px-4 py-1 hover:rounded-lg hover:bg-gray-200">Protected Route</a></li>
+                    </ul>
+                </li>
+                <!-- End Dropdown Menu -->
+            </ul>
+        </div>
+        <ul class="flex space-x-6">
+            <li>
+                <% if (typeof user !=='undefined' && user) { %>
+                    <div class="relative group">
+                        <a href="#" class="text-white px-3 mr-4 py-2 rounded-full border-[2px]">
+                            <i class="fas fa-user mt-1 text-[20px]"></i>
+                        </a>
+                        <!-- Dropdown Content -->
+                        <ul
+                            class="absolute hidden space-y-2 w-[100px] text-md bg-white text-gray-800 group-hover:block rounded-lg shadow-md mt-[6px] z-50">
+                            <li><a href="/profile" class="block px-4 py-1 hover:rounded-lg hover:bg-gray-200">
+                                    <i class="fas fa-user mr-2 mt-1"></i>Profile
+                                </a></li>
+                            <li><a href="/api/user/logout" class="flex px-4 py-1 hover:rounded-lg hover:bg-gray-200">
+                                    <i class="fas fa-sign-out-alt mr-2 mt-1"></i>Logout
+                                </a></li>
+                        </ul>
+                    </div>
+                    <% } else { %>
+                        <a href="/login"
+                            class="bg-white text-blue-500 hover:bg-gray-200 font-semibold py-2 px-6 rounded-full transition duration-300 transform hover:scale-105">Login</a>
+
+                        <!-- <a href="/api/user/logout"
+                    class="bg-white text-blue-500 hover:bg-gray-200 font-semibold py-2 px-6 rounded-full transition duration-300 transform hover:scale-105">Logout</a> -->
+                        <% } %>
+            </li>
+
+            <li><i class="fas fa-search text-white text-xl cursor-pointer" id="search-icon"></i>
+                <i class="fas fa-times text-white text-xl cursor-pointer hidden" id="close-icon"></i>
+            </li>
+        </ul>
+    </div>
+</nav>
