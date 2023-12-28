@@ -1,0 +1,231 @@
+<div>
+    <div class="flex justify-center items-center text-lg font-semibold">
+        <h1>Products Table</h1>
+    </div>
+    <div>
+        <button type="button" class="btn btn-primary !bg-blue-500" data-toggle="modal"
+            data-target="#exampleModalCenter">
+            Add Product
+        </button>
+
+        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+            aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Add Product</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="addProductForm">
+                            <div class="form-group">
+                                <label for="productName">Name</label>
+                                <input type="text" class="form-control" id="productName"
+                                    placeholder="Enter product name">
+                            </div>
+                            <div class="form-group">
+                                <label for="productPrice">Price</label>
+                                <input type="number" class="form-control" id="productPrice"
+                                    placeholder="Enter product price">
+                            </div>
+                            <div class="form-group">
+                                <label for="productImage">Image</label>
+                                <input type="text" class="form-control" id="productImage"
+                                    placeholder="Enter product image URL">
+                            </div>
+                            <div class="form-group">
+                                <label for="productDescription">Description</label>
+                                <textarea class="form-control" id="productDescription" rows="3"
+                                    placeholder="Enter product description"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="productCategory">Category</label>
+                                <input type="text" class="form-control" id="productCategory"
+                                    placeholder="Enter product category">
+                            </div>
+                            <div class="form-group">
+                                <label for="productQuantity">Quantity</label>
+                                <input type="number" class="form-control" id="productQuantity"
+                                    placeholder="Enter product quantity">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary !bg-gray-500" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary !bg-blue-500" onclick="addProduct()">Save
+                            changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <table class="table-auto w-full mt-6">
+                <thead class='border-b-2 border-t-2 border-gray-300'>
+                    <tr>
+                        <th key={column.accessor} class='text-center text-black-400'>ID</th>
+                        <th key={column.accessor} class='text-center text-black-400'>Name</th>
+                        <th key={column.accessor} class='text-center text-black-400'>Price</th>
+                        <th key={column.accessor} class='text-center text-black-400'>Image</th>
+                        <th key={column.accessor} class='text-center text-black-400'>Description</th>
+                        <th key={column.accessor} class='text-center text-black-400'>category</th>
+                        <th key={column.accessor} class='text-center text-black-400'>Quantity</th>
+                        <th key={column.accessor} class='text-center text-black-400'>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="productTableBody">
+                    <tr>
+                        <td class='text-center py-3 border-b-2 border-gray-400 p-2'>{product.productId}</td>
+                        <td class='text-center py-3 border-b-2 border-gray-400 p-2'>{product.name}</td>
+                        <td class='text-center py-3 border-b-2 border-gray-400 p-2'>{product.price}</td>
+                        <td class='text-center py-3 border-b-2 border-gray-400 p-2'>{product.image}</td>
+                        <td class='text-center py-3 border-b-2 border-gray-400 p-2'>{product.description}</td>
+                        <td class='text-center py-3 border-b-2 border-gray-400 p-2'>{product.category}</td>
+                        <td class='text-center py-3 border-b-2 border-gray-400 p-2'>{product.quantity}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script>
+        const getAllProducts = async () => {
+            const res = await axios.get('/api/get-all-products')
+            populateTable(res.data)
+        }
+
+        const deleteProduct = async (productId) => {
+            const res = await axios.delete(`/api/delete-product/${productId}`)
+            console.log(res.data)
+            getAllProducts()
+        }
+
+        const addProduct = async () => {
+            const productName = document.getElementById('productName').value;
+            const productPrice = document.getElementById('productPrice').value;
+            const productImage = document.getElementById('productImage').value;
+            const productDescription = document.getElementById('productDescription').value;
+            const productCategory = document.getElementById('productCategory').value;
+            const productQuantity = document.getElementById('productQuantity').value;
+
+            const productData = {
+                name: productName,
+                price: productPrice,
+                images: [productImage],
+                description: productDescription,
+                category: productCategory,
+                quantity: productQuantity
+            };
+
+            const res = await axios.post('/api/add-product', productData);
+            console.log(res.data);
+            getAllProducts();
+        }
+
+        const updateProduct = async (productId) => {
+            const productName = document.getElementById('productName').value;
+            const productDescription = document.getElementById('productDescription').value;
+            const productPrice = document.getElementById('productPrice').value;
+            const productQuantity = document.getElementById('productQuantity').value;
+            const productImage = document.getElementById('productImage').value;
+            const productCategory = document.getElementById('productCategory').value;
+            const productData = {
+                name: productName,
+                description: productDescription,
+                price: productPrice,
+                quantity: productQuantity,
+                images: [productImage],
+                category: productCategory,
+                id: productId
+            };
+
+            const res = await axios.post('/api/update-product', productData);
+            console.log(res.data);
+            getAllProducts();
+        }
+
+
+        const populateTable = (data) => {
+            const tableBody = document.getElementById('productTableBody')
+            tableBody.innerHTML = ''
+            data.forEach(product => {
+                const row = document.createElement('tr')
+                row.innerHTML = `
+                <td class='text-center py-3 border-b-2 border-gray-400 p-2'>${product.productId}</td>
+                <td class='text-center py-3 border-b-2 border-gray-400 p-2'>${product.name}</td>
+                <td class='text-center py-3 border-b-2 border-gray-400 p-2'>${product.price}</td>
+                <td class='text-center py-3 border-b-2 border-gray-400 p-2'><img class='w-[100px] h-[100px]' src=${product.images[0]} alt="product image" /></td>
+                <td class='text-center py-3 border-b-2 border-gray-400 p-2'>${product.description}</td>
+                <td class='text-center py-3 border-b-2 border-gray-400 p-2'>${product.category}</td>
+                <td class='text-center py-3 border-b-2 border-gray-400 p-2'>${product.quantity}</td>
+                <td class='text-center py-3 border-b-2 border-gray-400 p-2'>
+                        <div>
+                            <button type="button" class="btn btn-primary !bg-blue-500" data-toggle="modal" data-target="#updateModalCenter">
+                                Edit
+                            </button>
+
+                            <div class="modal fade" id="updateModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+                                aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLongTitle">Update Product</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form id="updateProductForm">
+                                                <div class="form-group">
+                                <label for="productName">Name</label>
+                                <input value="product name" type="text" class="form-control" id="productName"
+                                    placeholder="Enter product name">
+                            </div>
+                            <div class="form-group">
+                                <label for="productPrice">Price</label>
+                                <input value="45" type="number" class="form-control" id="productPrice"
+                                    placeholder="Enter product price">
+                            </div>
+                            <div class="form-group">
+                                <label for="productImage">Image</label>
+                                <input type="text" class="form-control" id="productImage"
+                                    placeholder="Enter product image URL">
+                            </div>
+                            <div class="form-group">
+                                <label for="productDescription">Description</label>
+                                <textarea value="desc" class="form-control" id="productDescription" rows="3"
+                                    placeholder="Enter product description"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="productCategory">Category</label>
+                                <input value="cat" type="text" class="form-control" id="productCategory"
+                                    placeholder="Enter product category">
+                            </div>
+                            <div class="form-group">
+                                <label for="productQuantity">Quantity</label>
+                                <input value="45" type="number" class="form-control" id="productQuantity"
+                                    placeholder="Enter product quantity">
+                            </div>
+                        
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary !bg-gray-500" data-dismiss="modal">Close</button>
+                                            <button type="button" class="btn btn-primary !bg-blue-500" onclick="updateProduct('${product._id}')">Save changes</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                            <button
+                            onclick="deleteProduct('${product._id}')"
+                                class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Delete</button>
+                        </div>
+                    </td>
+            `
+                tableBody.appendChild(row)
+            })
+        }
+
+        window.onload = getAllProducts
+    </script>
